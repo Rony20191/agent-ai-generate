@@ -1,0 +1,120 @@
+{
+  "id": "example-workflow-1",
+  "name": "Gerador de API REST",
+  "description": "Workflow para gerar uma API REST completa",
+  "nodes": [
+    {
+      "id": "node-1",
+      "name": "Prompt de Especificação",
+      "type": "ai_prompt",
+      "x": 100,
+      "y": 100,
+      "config": {
+        "prompt": "Crie uma especificação para uma API REST com endpoints para CRUD de usuários",
+        "model": "gpt-4",
+        "temperature": 0.7
+      },
+      "inputs": [],
+      "outputs": [
+        {
+          "id": "output",
+          "name": "Especificação"
+        }
+      ]
+    },
+    {
+      "id": "node-2",
+      "name": "Gerador de Código",
+      "type": "code_generator",
+      "x": 400,
+      "y": 100,
+      "config": {
+        "language": "javascript",
+        "framework": "express",
+        "includeTests": true
+      },
+      "inputs": [
+        {
+          "id": "input",
+          "name": "Especificação"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "output",
+          "name": "Código Gerado"
+        }
+      ]
+    },
+    {
+      "id": "node-3",
+      "name": "Escritor de Arquivo",
+      "type": "file_writer",
+      "x": 700,
+      "y": 100,
+      "config": {
+        "outputPath": "./generated-api",
+        "fileStructure": "organized"
+      },
+      "inputs": [
+        {
+          "id": "input",
+          "name": "Código"
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "id": "node-4",
+      "name": "Validador de Código",
+      "type": "condition",
+      "x": 400,
+      "y": 300,
+      "config": {
+        "condition": "codeQuality > 0.8",
+        "validationRules": ["syntax", "best-practices", "security"]
+      },
+      "inputs": [
+        {
+          "id": "input",
+          "name": "Código"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "true",
+          "name": "Válido"
+        },
+        {
+          "id": "false",
+          "name": "Inválido"
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "conn-1",
+      "sourceNode": "node-1",
+      "sourcePort": "output",
+      "targetNode": "node-2",
+      "targetPort": "input"
+    },
+    {
+      "id": "conn-2",
+      "sourceNode": "node-2",
+      "sourcePort": "output",
+      "targetNode": "node-3",
+      "targetPort": "input"
+    },
+    {
+      "id": "conn-3",
+      "sourceNode": "node-2",
+      "sourcePort": "output",
+      "targetNode": "node-4",
+      "targetPort": "input"
+    }
+  ],
+  "createdAt": "2024-01-15T10:00:00.000Z",
+  "updatedAt": "2024-01-15T10:30:00.000Z"
+}
